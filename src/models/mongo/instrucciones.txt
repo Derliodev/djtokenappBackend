@@ -1,0 +1,33 @@
+Importa el modelo en tu controlador o servicio:
+const SongRequest = require('../models/mongo/songRequest.model');
+
+
+Crea un nuevo documento y guárdalo en la base de datos:
+const newSongRequest = new SongRequest({
+  songName: 'Blinding Lights',
+  requestedBy: '64dfc54791a0c2b5c8f27634', // ID de usuario en MongoDB
+  dj: '64dfc54791a0c2b5c8f27635',         // ID de DJ en MongoDB
+  event: '64dfc54791a0c2b5c8f27636',      // ID de evento en MongoDB
+  priority: 'high',
+});
+
+newSongRequest.save()
+  .then((result) => {
+    console.log('Solicitud de canción guardada:', result);
+  })
+  .catch((err) => {
+    console.error('Error al guardar la solicitud:', err);
+  });
+
+
+  Importante sobre el guardado de modelos
+	1.	Relaciones (ref):
+	•	Si usas referencias (requestedBy, dj, event), los IDs deben coincidir con los documentos correspondientes en MongoDB.
+	•	Usa populate para obtener los datos relacionados.
+	2.	Validación:
+	•	Si defines required o valores enum en el esquema, asegúrate de cumplirlos al guardar el documento.
+
+  Convención de nombres de archivos
+	1.	Nombre del archivo: Usa el singular y en minúsculas para el nombre del modelo:
+	•	Ejemplo: songRequest.model.js, notification.model.js.
+	2.	Carpeta: Organiza los modelos en una carpeta específica, como src/models/mongo.
